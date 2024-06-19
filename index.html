@@ -185,9 +185,7 @@
                     const doc = parser.parseFromString(data, 'text/html');
                     const solutionDiv = doc.body.firstChild;
                     solutionDiv.classList.add('solution-container');
-                    solutionDiv.setAttribute('data-tags', Array.from(solutionDiv.querySelectorAll('.tag')).map(tag => tag.textContent).join(', '));
-                    solutionsContainer.appendChild(solutionDiv);
-                    filterSolutions(); // Filter solutions after loading
+                    document.getElementById('solutionsContainer').appendChild(solutionDiv);
                 })
                 .catch(error => console.error('Error loading solution:', error));
         }
