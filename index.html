@@ -1,1 +1,231 @@
-init
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IaC Solutions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            color: inherit;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: inherit;
+            font-size: 16px;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            padding: 10px;
+            font-size: 16px;
+            width: 50%;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #333;
+            color: #e0e0e0;
+        }
+        .search-container input.light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        .tags-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .tags-container button {
+            margin: 0 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        .tags-container button.Terraform { background-color: #4CAF50; }
+        .tags-container button.Ansible { background-color: #FF5733; }
+        .tags-container button.Kubernetes { background-color: #007bff; }
+        .tags-container button.AWS { background-color: #FF9900; }
+        .tags-container button.Linux { background-color: #f0ad4e; }
+        .tags-container button.Docker { background-color: #00c0ef; }
+        .tags-container button.selected {
+            opacity: 0.7;
+        }
+        .solution-container {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            border: 1px solid #444;
+        }
+        .solution-container.light-mode {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+        }
+        pre {
+            background-color: #333;
+            color: #f4f4f9;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre.light-mode {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .tags {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        .tag.Terraform { background-color: #4CAF50; color: #fff; }
+        .tag.Ansible { background-color: #FF5733; color: #fff; }
+        .tag.Kubernetes { background-color: #007bff; color: #fff; }
+        .tag.AWS { background-color: #FF9900; color: #fff; }
+        .tag.Linux { background-color: #f0ad4e; color: #fff; }
+        .tag.Docker { background-color: #00c0ef; color: #fff; }
+    </style>
+</head>
+<body class="dark-mode">
+    <header>
+        <h1>Infrastructure as Code Solutions</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">Switch to Light Mode</button>
+    </header>
+    <div class="search-container">
+        <input type="text" id="searchInput" onkeyup="searchSolutions()" placeholder="Search for solutions...">
+    </div>
+    <div class="tags-container" id="tagsContainer">
+        <button class="Terraform" onclick="filterByTag('Terraform')">Terraform</button>
+        <button class="Ansible" onclick="filterByTag('Ansible')">Ansible</button>
+        <button class="Kubernetes" onclick="filterByTag('Kubernetes')">Kubernetes</button>
+        <button class="AWS" onclick="filterByTag('AWS')">AWS</button>
+        <button class="Linux" onclick="filterByTag('Linux')">Linux</button>
+        <button class="Docker" onclick="filterByTag('Docker')">Docker</button>
+    </div>
+    <div id="solutionsContainer">
+        <!-- Solution content will be loaded here -->
+    </div>
+    <script>
+        const tagsContainer = document.getElementById('tagsContainer');
+        const solutionsContainer = document.getElementById('solutionsContainer');
+        let selectedTags = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSolution('solution1.html');
+            loadSolution('solution2.html');
+            loadSolution('solution3.html');
+        });
+
+        function loadSolution(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    const solutionDiv = document.createElement('div');
+                    solutionDiv.innerHTML = data;
+                    solutionDiv.classList.add('solution-container');
+                    solutionDiv.setAttribute('data-tags', solutionDiv.querySelector('.tags').innerText.split(' ').join(', '));
+                    solutionsContainer.appendChild(solutionDiv);
+                })
+                .catch(error => console.error('Error loading solution:', error));
+        }
+
+        function searchSolutions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const solutions = solutionsContainer.getElementsByClassName('solution-container');
+            for (let i = 0; i < solutions.length; i++) {
+                const solution = solutions[i];
+                const text = solution.textContent || solution.innerText;
+                solution.style.display = text.toLowerCase().includes(input) ? '' : 'none';
+            }
+        }
+
+        function filterByTag(tag) {
+            const index = selectedTags.indexOf(tag);
+            if (index > -1) {
+                selectedTags.splice(index, 1);
+            } else {
+                selectedTags.push(tag);
+            }
+            updateTags();
+            filterSolutions();
+        }
+
+        function updateTags() {
+            const buttons = tagsContainer.getElementsByTagName('button');
+            for (let i = 0; i < buttons.length; i++) {
+                const button = buttons[i];
+                if (selectedTags.includes(button.innerText)) {
+                    button.classList.add('selected');
+                } else {
+                    button.classList.remove('selected');
+                }
+            }
+        }
+
+        function filterSolutions() {
+            const solutions = solutionsContainer.getElementsByClassName('solution-container');
+            for (let i = 0; i < solutions.length; i++) {
+                const solution = solutions[i];
+                const tags = solution.getAttribute('data-tags').split(', ');
+                const matches = selectedTags.every(tag => tags.includes(tag));
+                solution.style.display = matches ? '' : 'none';
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+            
+            const inputs = document.getElementsByTagName('input');
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].classList.toggle('light-mode');
+            }
+
+            const solutions = document.getElementsByClassName('solution-container');
+            for (let i = 0; i < solutions.length; i++) {
+                solutions[i].classList.toggle('light-mode');
+            }
+
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (body.classList.contains('light-mode')) {
+                themeToggle.innerText = 'Switch to Dark Mode';
+            } else {
+                themeToggle.innerText = 'Switch to Light Mode';
+            }
+        }
+    </script>
+</body>
+</html>
