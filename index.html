@@ -228,7 +228,7 @@
             const solutions = solutionsContainer.getElementsByClassName('solution-container');
             for (let i = 0; i < solutions.length; i++) {
                 const solution = solutions[i];
-                const tags = solution.getAttribute('data-tags').split(', ');
+                const tags = solution.getAttribute('tags').split(', ');
                 const matches = selectedTags.every(tag => tags.includes(tag));
                 solution.style.display = matches ? '' : 'none';
             }
