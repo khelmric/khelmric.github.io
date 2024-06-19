@@ -152,11 +152,13 @@
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    const solutionDiv = document.createElement('div');
-                    solutionDiv.innerHTML = data;
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const solutionDiv = doc.body.firstChild;
                     solutionDiv.classList.add('solution-container');
-                    solutionDiv.setAttribute('data-tags', solutionDiv.querySelector('.tags').innerText.split(' ').join(', '));
+                    solutionDiv.setAttribute('data-tags', Array.from(solutionDiv.querySelectorAll('.tag')).map(tag => tag.textContent).join(', '));
                     solutionsContainer.appendChild(solutionDiv);
+                    filterSolutions(); // Filter solutions after loading
                 })
                 .catch(error => console.error('Error loading solution:', error));
         }
@@ -221,9 +223,9 @@
 
             const themeToggle = document.querySelector('.theme-toggle');
             if (body.classList.contains('light-mode')) {
-                themeToggle.innerText = 'Switch to Dark Mode';
+                themeToggle.innerText = 'Dark Mode';
             } else {
-                themeToggle.innerText = 'Switch to Light Mode';
+                themeToggle.innerText = 'Light Mode';
             }
         }
     </script>
