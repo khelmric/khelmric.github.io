@@ -67,15 +67,16 @@
             border-radius: 5px;
             color: white;
             cursor: pointer;
+            opacity: 0.3;
         }
         .tags-container button.Terraform { background-color: #4CAF50; }
         .tags-container button.Ansible { background-color: #FF5733; }
-        .tags-container button.Kubernetes { background-color: #007bff; }
-        .tags-container button.AWS { background-color: #FF9900; }
+        .tags-container button.GCP { background-color: #007bff; }
+        .tags-container button.Python { background-color: #FF9900; }
         .tags-container button.Linux { background-color: #f0ad4e; }
         .tags-container button.Docker { background-color: #00c0ef; }
         .tags-container button.selected {
-            opacity: 0.7;
+            opacity: 1;
         }
         .solution-container {
             padding: 20px;
@@ -112,25 +113,25 @@
         }
         .tag.Terraform { background-color: #4CAF50; color: #fff; }
         .tag.Ansible { background-color: #FF5733; color: #fff; }
-        .tag.Kubernetes { background-color: #007bff; color: #fff; }
-        .tag.AWS { background-color: #FF9900; color: #fff; }
+        .tag.GCP { background-color: #007bff; color: #fff; }
+        .tag.Python { background-color: #FF9900; color: #fff; }
         .tag.Linux { background-color: #f0ad4e; color: #fff; }
         .tag.Docker { background-color: #00c0ef; color: #fff; }
     </style>
 </head>
 <body class="dark-mode">
     <header>
-        <h1>Infrastructure as Code Solutions</h1>
-        <button class="theme-toggle" onclick="toggleTheme()">Switch to Light Mode</button>
+        <h1>Infrastructure as Code Examples</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
     </header>
     <div class="search-container">
-        <input type="text" id="searchInput" onkeyup="searchSolutions()" placeholder="Search for solutions...">
+        <input type="text" id="searchInput" onkeyup="searchSolutions()" placeholder="Search...">
     </div>
     <div class="tags-container" id="tagsContainer">
         <button class="Terraform" onclick="filterByTag('Terraform')">Terraform</button>
         <button class="Ansible" onclick="filterByTag('Ansible')">Ansible</button>
-        <button class="Kubernetes" onclick="filterByTag('Kubernetes')">Kubernetes</button>
-        <button class="AWS" onclick="filterByTag('AWS')">AWS</button>
+        <button class="GCP" onclick="filterByTag('GCP')">GCP</button>
+        <button class="Python" onclick="filterByTag('Python')">Python</button>
         <button class="Linux" onclick="filterByTag('Linux')">Linux</button>
         <button class="Docker" onclick="filterByTag('Docker')">Docker</button>
     </div>
@@ -143,7 +144,7 @@
         let selectedTags = [];
 
         document.addEventListener('DOMContentLoaded', function() {
-            loadSolution('solution1.html');
+            loadSolution('python_org_policy_api.html');
             loadSolution('solution2.html');
             loadSolution('solution3.html');
         });
