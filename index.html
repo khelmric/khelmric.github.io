@@ -235,9 +235,9 @@
             }
         }
 
-        function toggleSolutionDetails(element) {
-            const solutionDetails = element.nextElementSibling.nextElementSibling;
-            console.log(solutionDetails)
+
+        function toggleSolutionDetails(header) {
+            const solutionDetails = header.nextElementSibling.querySelector('.solution-details');
             if (solutionDetails.style.display === 'none' || solutionDetails.style.display === '') {
                 solutionDetails.style.display = 'block';
             } else {
