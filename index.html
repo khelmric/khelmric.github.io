@@ -211,6 +211,15 @@
             }
         }
 
+        function toggleSolutionDetails(element) {
+            const solutionDetails = element.nextElementSibling.nextElementSibling;
+            if (solutionDetails.style.display === 'none' || solutionDetails.style.display === '') {
+                solutionDetails.style.display = 'block';
+            } else {
+                solutionDetails.style.display = 'none';
+            }
+        }
+
         function toggleTheme() {
             const body = document.body;
             body.classList.toggle('dark-mode');
