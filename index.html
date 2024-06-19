@@ -113,7 +113,7 @@
             padding-bottom: 10px;
         }
         .solution-title {
-            font-size: 10px; /* Adjust font size as desired */
+            font-size: 14px;
             margin: 0;
         }
         .solution-meta {
@@ -149,7 +149,7 @@
 </head>
 <body class="light-mode">
     <header>
-        <h1>Infrastructure as Code Examples2</h1>
+        <h1>Infrastructure as Code Examples</h1>
         <button class="theme-toggle" onclick="toggleTheme()">Dark Mode</button>
     </header>
     <div class="search-container">
@@ -235,12 +235,16 @@
 
         function toggleSolutionDetails(element) {
             const solutionDetails = element.nextElementSibling;
-            console.log(solutionDetails)
-            console.log(solutionDetails.name)
             if (solutionDetails.style.display === 'none' || solutionDetails.style.display === '') {
                 solutionDetails.style.display = 'block';
             } else {
                 solutionDetails.style.display = 'none';
+            }
+            const solutionTitle = element.firstElementChild;
+            if (solutionTitle.fontSize == '20px') {
+                solutionTitle.fontSize == '14px'
+            } else {
+                solutionTitle.fontSize == '20px'
             }
         }
 
