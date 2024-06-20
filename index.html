@@ -199,9 +199,21 @@
                     // Extract tags and set data-tags attribute
                     const tags = extractTags(data);
                     solutionDiv.setAttribute('data-tags', tags.join(', '));
+
+                    // Generate HTML for tags
+                    const tagsHtml = tags.map(tag => `<span class="tag ${tag}">${tag}</span>`).join(' ');
+
+                    // Extract creation date (assuming the same format as tags)
+                    const creationDate = extractCreationDate(data);
                     solutionDiv.innerHTML = `
-                        <div class="solution-header" onclick="toggleSolutionDetails(this)">
+                            <div class="solution-header" onclick="toggleSolutionDetails(this)">
                             <h2 class="solution-title">${extractTitle(data)}</h2>
+                            <div class="solution-meta">
+                                <div class="tags">
+                                    ${tagsHtml}
+                                </div>
+                                <div class="creation-date">${creationDate}</div>
+                            </div>
                         </div>
                         <div class="solution-details" style="display: none;">
                             ${html}
@@ -228,6 +240,14 @@
                 return tagLine.replace('**Tags:**', '').trim().split(',').map(tag => tag.trim());
             }
             return [];
+        }
+
+        function extractCreationDate(markdown) {
+            const dateLine = markdown.split('\n').find(line => line.startsWith('**Creation Date:**'));
+            if (dateLine) {
+                return dateLine.replace('**Creation Date:**', '').trim();
+            }
+            return '';
         }
 
         function searchSolutions() {
