@@ -193,7 +193,7 @@
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    const html = marked(data);
+                    const html = marked.parse(data);
                     const solutionDiv = document.createElement('div');
                     solutionDiv.classList.add('solution-container');
                     solutionDiv.innerHTML = `
