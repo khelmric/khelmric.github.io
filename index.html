@@ -175,14 +175,17 @@
     <div id="solutionsContainer">
         <!-- Solution content will be loaded here -->
     </div>
+
+    <!-- Include Marked.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <script>
         const tagsContainer = document.getElementById('tagsContainer');
         const solutionsContainer = document.getElementById('solutionsContainer');
         let selectedTags = [];
 
         document.addEventListener('DOMContentLoaded', function() {
-            loadSolution('python_org_policy_api.html');
-            loadSolution('python_scc_api.html');
+            loadSolution('python_org_policy_api.md');
 
         });
 
@@ -190,15 +193,31 @@
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(data, 'text/html');
-                    const solutionDiv = doc.body.firstChild;
+                    const html = marked(data);
+                    const solutionDiv = document.createElement('div');
                     solutionDiv.classList.add('solution-container');
+                    solutionDiv.innerHTML = `
+                        <div class="solution-header" onclick="toggleSolutionDetails(this)">
+                            <h2 class="solution-title">${extractTitle(data)}</h2>
+                        </div>
+                        <div class="solution-details" style="display: none;">
+                            ${html}
+                        </div>
+                    `;
                     document.getElementById('solutionsContainer').appendChild(solutionDiv);
                 })
                 .catch(error => console.error('Error loading solution:', error));
         }
-        
+
+        function extractTitle(markdown) {
+            const lines = markdown.split('\n');
+            for (const line of lines) {
+                if (line.startsWith('# ')) {
+                    return line.replace('# ', '');
+                }
+            }
+            return 'Solution Title';
+        }
 
         function searchSolutions() {
             const input = document.getElementById('searchInput').value.toLowerCase();
