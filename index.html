@@ -196,8 +196,11 @@
                     const html = marked.parse(data);
                     const solutionDiv = document.createElement('div');
                     solutionDiv.classList.add('solution-container');
+                    // Extract tags and set data-tags attribute
+                    const tags = extractTags(data);
+                    solutionDiv.setAttribute('data-tags', tags.join(', '));
                     solutionDiv.innerHTML = `
-                        <div class="solution-header" onclick="toggleSolutionDetails(this)" data-tags="${extractTags(data)}">
+                        <div class="solution-header" onclick="toggleSolutionDetails(this)">
                             <h2 class="solution-title">${extractTitle(data)}</h2>
                         </div>
                         <div class="solution-details" style="display: none;">
