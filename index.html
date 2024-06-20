@@ -237,10 +237,13 @@
 
         function toggleSolutionDetails(element) {
             const solutionDetails = element.nextElementSibling;
+            const solutionTitle = element.querySelector('.solution-title');
             if (solutionDetails.style.display === 'none' || solutionDetails.style.display === '') {
                 solutionDetails.style.display = 'block';
+                solutionTitle.style.fontSize = '24px';
             } else {
                 solutionDetails.style.display = 'none';
+                solutionTitle.style.fontSize = '16px';
             }
         }
 
