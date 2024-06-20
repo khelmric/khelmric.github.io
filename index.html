@@ -197,7 +197,7 @@
                     const solutionDiv = document.createElement('div');
                     solutionDiv.classList.add('solution-container');
                     solutionDiv.innerHTML = `
-                        <div class="solution-header" onclick="toggleSolutionDetails(this)">
+                        <div class="solution-header" onclick="toggleSolutionDetails(this)" data-tags="${extractTags(data)}">
                             <h2 class="solution-title">${extractTitle(data)}</h2>
                         </div>
                         <div class="solution-details" style="display: none;">
@@ -217,6 +217,14 @@
                 }
             }
             return 'Solution Title';
+        }
+
+        function extractTags(markdown) {
+            const tagLine = markdown.split('\n').find(line => line.startsWith('**Tags:**'));
+            if (tagLine) {
+                return tagLine.replace('**Tags:**', '').trim().split(',').map(tag => tag.trim());
+            }
+            return [];
         }
 
         function searchSolutions() {
